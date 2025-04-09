@@ -30,7 +30,13 @@ const htmlContent = {
   `,
 };
 
-export const sendMail = async (user, subject, type, code) => {
+import { mailTransporter } from "./transporter.js"; // or however it's set up
+import { generateMailCode, generateMailCodeExpires } from "./helpers.js"; // if you have them split
+
+export const sendMail = async (user, subject, type) => {
+  const code = generateMailCode(); // 🔐 generate a new code
+  const expires = generateMailCodeExpires(); // ⏰
+
   const html =
     type === "verify"
       ? htmlContent.welcomeAndVerify(user.name, code)
@@ -45,8 +51,10 @@ export const sendMail = async (user, subject, type, code) => {
 
   try {
     const result = await mailTransporter.sendMail(mailOptions);
-    return { code, expires: Date.now() + 3600000 }; // 1 hour
+    console.log("✅ Email sent:", result.response);
+    return { code, expires }; // ✅ this fixes your issue!
   } catch (err) {
-    return null; 
+    console.error("❌ Failed to send email:", err);
+    return { code: null, expires: null }; // fallback if needed
   }
 };
