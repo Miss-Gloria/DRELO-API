@@ -45,7 +45,8 @@ export const sendMail = async (user, subject, type, code) => {
 
   try {
     const result = await mailTransporter.sendMail(mailOptions);
-    
+    return { code, expires: Date.now() + 3600000 }; // 1 hour
   } catch (err) {
+    return null; 
   }
 };
