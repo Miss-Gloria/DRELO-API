@@ -30,8 +30,7 @@ const htmlContent = {
   `,
 };
 
-import { mailTransporter } from "./transporter.js"; // or however it's set up
-import { generateMailCode, generateMailCodeExpires } from "./helpers.js"; // if you have them split
+
 
 export const sendMail = async (user, subject, type) => {
   const code = generateMailCode(); // 🔐 generate a new code
