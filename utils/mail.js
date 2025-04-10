@@ -32,9 +32,7 @@ const htmlContent = {
 
 
 
-export const sendMail = async (user, subject, type) => {
-  const code = generateMailCode(); // 🔐 generate a new code
-  const expires = generateMailCodeExpires(); // ⏰
+export const sendMail = async (user, subject, type, code) => {
 
   const html =
     type === "verify"
@@ -51,9 +49,7 @@ export const sendMail = async (user, subject, type) => {
   try {
     const result = await mailTransporter.sendMail(mailOptions);
     console.log("✅ Email sent:", result.response);
-    return { code, expires }; // ✅ this fixes your issue!
   } catch (err) {
     console.error("❌ Failed to send email:", err);
-    return { code: null, expires: null }; // fallback if needed
   }
 };

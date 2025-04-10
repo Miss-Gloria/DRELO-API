@@ -2,7 +2,8 @@ import { UserModel } from "../models/user_model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { confirmUserEmailValidator, forgotPasswordValidator, loginUserValidator, registerUserValidator, resetPasswordValidator } from "../validators/user_validator.js";
-import { sendMail, mailTransporter, generateMailCode, generateMailCodeExpires } from "../utils/mail.js";
+import { sendMail, generateMailCode, generateMailCodeExpires } from "../utils/mail.js";
+
 
 export const registerUser = async (req, res) => {
   const { error, value } = registerUserValidator.validate(req.body);
@@ -10,39 +11,45 @@ export const registerUser = async (req, res) => {
     return res.status(422).json(error);
   }
 
-  const existingUser = await UserModel.findOne({
-    $or: [
-      { username: value.username },
-      { email: value.email },
-    ],
-  });
-
+  // ✅ Only check if email is already registered
+  const existingUser = await UserModel.findOne({ email: value.email });
   if (existingUser) {
-    return res.status(409).json({ message: "User already exists" });
+    return res.status(409).json({ message: "Email already in use" });
   }
 
   const hashedPassword = await bcrypt.hash(value.password, 10);
 
-  // Create user (without code for now)
+  // Step 1: Create user (without code)
   const newUser = await UserModel.create({
     ...value,
     password: hashedPassword,
     verified: false,
   });
 
- const { code, expires } = await sendMail(
-  newUser,
-  "Activate Your Drelo Routes Account",
-  "verify"
-);
+  // Step 2: Generate code and expiry
+  const mailCode = generateMailCode();
+  const mailCodeExpires = generateMailCodeExpires();
 
-await UserModel.findByIdAndUpdate(newUser._id, {
-  mailCode: code,
-  mailCodeExpires: expires,
-});
+  // Step 3: Send email with code
+  await sendMail(
+    newUser,
+    "Activate Your Drelo Routes Account",
+    "verify",
+    mailCode
+  );
 
-  res.status(201).json({ message: "User created successfully. Please check your email to verify your account." });
+  // Step 4: Save code to user
+  await UserModel.findByIdAndUpdate(newUser._id, {
+    mailCode,
+    mailCodeExpires,
+  });
+
+  // Step 5: Final response
+  res.status(201).json({
+    message: "User created successfully. Please check your email to verify your account.",
+  });
 };
+
 
 export const confirmNewUserEmail = async (req, res) => {
   const { error, value } = confirmUserEmailValidator.validate(req.body);
@@ -93,7 +100,7 @@ if (!user.verified) {
   //Generate access token for user
 
   const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_VALIDITY,
+    expiresIn: process.env.JWT_VALIDITY || "24h",
   });
   //Return response
   res.status(200).json({
@@ -141,10 +148,7 @@ export const forgotPassword = async (req, res) => {
     mailCode
   );
 
-  if (process.env.NODE_ENV === "development") {
-    console.log("📨 Reset code:", mailCode);
-    console.log("⏰ Expires at:", mailCodeExpires);
-  }
+
 
   res.status(200).json({
     message: "You will receive a reset code in your email",
