@@ -184,4 +184,15 @@ export const resetPassword = async (req, res) => {
 
 
 
-
+export const getAuthenticatedUser = async (req, res, next) => {
+ try {
+   //Get user by id using req.auth.id
+   const result = await UserModel
+   .findById(req.auth.id)
+   .select({password: false })
+   //Return response
+   res.status(200).json(result);
+ } catch (error) {
+  next(error);
+ } 
+}

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import aiRouter from "./routes/openai_routes.js";
 import userRouter from "./routes/user_route.js";
 import { connect } from "mongoose";
+import geminiRouter from "./routes/gemini_route.js";
 
 
 mongoose.connect(process.env.MONGO_URI)
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 //use routes
 app.use(aiRouter);
 app.use(userRouter);
+app.use(geminiRouter)
 
 
 

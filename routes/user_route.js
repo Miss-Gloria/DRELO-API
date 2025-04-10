@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { confirmNewUserEmail, forgotPassword, loginUser, registerUser, resetPassword } from "../controllers/user_controller.js";
+import { confirmNewUserEmail, forgotPassword, getAuthenticatedUser, loginUser, registerUser, resetPassword } from "../controllers/user_controller.js";
+import { isAuthuenticated } from "../middlewares/auth.js";
 
 const userRouter = Router();
 
 userRouter.post("/user/register", registerUser)
 userRouter.post("/user/login", loginUser);
-userRouter.post("/forgot-password", forgotPassword);
-userRouter.post("/reset-password", resetPassword);
+userRouter.patch("/forgot-password", forgotPassword);
+userRouter.patch("/reset-password", resetPassword);
 userRouter.post("/activate-email", confirmNewUserEmail)
+userRouter.get('/users/me', isAuthuenticated, getAuthenticatedUser)
 export default userRouter;

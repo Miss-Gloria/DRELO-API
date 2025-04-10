@@ -12,13 +12,5 @@ const userSchema = new Schema({
     timestamps: true
 })
 
- userSchema.set("toJSON", {
-    transform: (doc, ret) => {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
-        delete ret.password;
-    },
-});
 userSchema.plugin(normalize);
 export const UserModel = model("User", userSchema)
