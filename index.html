@@ -6,18 +6,24 @@
     <title>DreLo-Routes Compass UI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Spin on hover */
+        /* Gentle compass wiggle on hover */
         .compass:hover {
-            animation: spin 5s linear infinite;
+            animation: wiggle 5s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            from {
+        @keyframes wiggle {
+
+            0%,
+            100% {
                 transform: rotate(0deg);
             }
 
-            to {
-                transform: rotate(360deg);
+            25% {
+                transform: rotate(2deg);
+            }
+
+            75% {
+                transform: rotate(-2deg);
             }
         }
 
@@ -63,7 +69,6 @@
             font-size: 0.7rem;
             white-space: nowrap;
             bottom: 125%;
-            /* Position above */
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -77,53 +82,65 @@
     </style>
 </head>
 
-<body class="bg-purple-50 min-h-screen flex items-center justify-center">
-    <div class="relative compass w-[400px] h-[400px] md:w-[550px] md:h-[550px]">
-        <!-- North -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center tooltip">
-            <div class="text-2xl">🗺️</div>
-            <div class="text-sm font-semibold text-gray-800">Explore</div>
-            <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">Go</button>
-            <span class="tooltip-text">Discover cool places to visit</span>
-        </div>
+<body class="relative min-h-screen overflow-hidden">
+    <!-- Background video -->
+    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+        <source src="video/sea.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
 
-        <!-- East -->
-        <div class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center tooltip">
-            <div class="text-2xl">📅</div>
-            <div class="text-sm font-semibold text-gray-800">Booking</div>
-            <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">View</button>
-            <span class="tooltip-text">Plan transport, hotels & more</span>
-        </div>
+    <!-- Overlay for contrast -->
+    <div class="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
 
-        <!-- South -->
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center tooltip">
-            <div class="text-2xl">💜</div>
-            <div class="text-sm font-semibold text-gray-800">Sex Ed</div>
-            <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">Learn</button>
-            <span class="tooltip-text">Healthy tips for safe journeys</span>
-        </div>
-
-        <!-- West -->
-        <div class="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-center tooltip">
-            <div class="text-2xl">⚠️</div>
-            <div class="text-sm font-semibold text-gray-800">Scam Alerts</div>
-            <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">Check</button>
-            <span class="tooltip-text">Avoid tourist scams & dangers</span>
-        </div>
-
-        <!-- DreLoBot Center + Pulse -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div
-                class="relative w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center bg-white border shadow-xl">
-                <div class="pulse-ring"></div>
-                <img src="drelobot.png" alt="DreLoBot" class="w-4/5 h-4/5 object-contain z-10" />
+    <!-- Main content -->
+    <div class="relative z-20 flex items-center justify-center min-h-screen">
+        <div class="relative compass w-[400px] h-[400px] md:w-[550px] md:h-[550px]">
+            <!-- North -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center tooltip">
+                <div class="text-2xl">🗺️</div>
+                <div class="text-sm font-semibold text-white">Explore</div>
+                <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">Go</button>
+                <span class="tooltip-text">Discover cool places to visit</span>
             </div>
-        </div>
 
-        <!-- Compass Circle -->
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="w-full h-full rounded-full border-2 border-gray-300"></div>
-            <div class="absolute w-2 h-2 bg-gray-700 rounded-full"></div>
+            <!-- East -->
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center tooltip">
+                <div class="text-2xl">📅</div>
+                <div class="text-sm font-semibold text-white">Booking</div>
+                <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">View</button>
+                <span class="tooltip-text">Plan transport, hotels & more</span>
+            </div>
+
+            <!-- South -->
+            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center tooltip">
+                <div class="text-2xl">💜</div>
+                <div class="text-sm font-semibold text-white">Sex Ed</div>
+                <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">Learn</button>
+                <span class="tooltip-text">Healthy tips for safe journeys</span>
+            </div>
+
+            <!-- West -->
+            <div class="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-center tooltip">
+                <div class="text-2xl">⚠️</div>
+                <div class="text-sm font-semibold text-white">Scam Alerts</div>
+                <button class="text-xs bg-white mt-1 px-3 py-1 rounded-md shadow">Check</button>
+                <span class="tooltip-text">Avoid tourist scams & dangers</span>
+            </div>
+
+            <!-- DreLoBot Center + Pulse -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div
+                    class="relative w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center bg-white border shadow-xl">
+                    <div class="pulse-ring"></div>
+                    <img src="drelobot.png" alt="DreLoBot" class="w-4/5 h-4/5 object-contain z-10" />
+                </div>
+            </div>
+
+            <!-- Compass Circle -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-full h-full rounded-full border-2 border-gray-200"></div>
+                <div class="absolute w-2 h-2 bg-white rounded-full"></div>
+            </div>
         </div>
     </div>
 </body>
