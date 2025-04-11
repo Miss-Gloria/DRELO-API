@@ -9,6 +9,7 @@ export const registerUserValidator = Joi.object({
 
 export const confirmUserEmailValidator = Joi.object({
   code: Joi.number().required(),
+  email: Joi.string().email().required()
 });
 
 export const loginUserValidator = Joi.object({
