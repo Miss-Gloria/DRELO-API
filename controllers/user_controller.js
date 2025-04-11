@@ -58,7 +58,7 @@ export const confirmNewUserEmail = async (req, res) => {
   }
 
   const user = await UserModel.findOne({
-    mailCode: value.code,
+    mailCode: value.verificationCode,
     mailCodeExpires: { $gt: Date.now() },
   });
 
