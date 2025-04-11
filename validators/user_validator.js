@@ -8,7 +8,7 @@ export const registerUserValidator = Joi.object({
 }).with("password", "confirmPassword");
 
 export const confirmUserEmailValidator = Joi.object({
-  code: Joi.number().required(),
+  verificationCode: Joi.number().required(),
   email: Joi.string().email().required()
 });
 
