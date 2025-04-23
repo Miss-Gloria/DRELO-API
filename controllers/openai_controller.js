@@ -17,7 +17,7 @@ Always be conversational and helpful. Include local insights, Ghanaian slangs, a
 `;
 
 export const aiChat = async (req, res) => {
-  const userInput = req.body.message;
+  const userInput = String(req.body.message);
 
   try {
     const response = await openai.chat.completions.create({
@@ -35,3 +35,4 @@ export const aiChat = async (req, res) => {
     res.status(500).json({ error: 'AI response failed' });
   }
 };
+
