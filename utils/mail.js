@@ -15,9 +15,6 @@ const htmlContent = {
   welcomeAndVerify: (name, code) => `
     <div style="background: linear-gradient(to bottom right, #d9f99d, #bbf7d0); padding: 40px; font-family: 'Arial', sans-serif; text-align: center; border-radius: 12px; max-width: 500px; margin: auto; box-shadow: 0px 8px 20px rgba(0,0,0,0.1);">
 
-  <div style="margin-bottom: 20px;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Emojione_1F389.svg/1200px-Emojione_1F389.svg.png" alt="Celebration Icon" style="height: 80px;">
-  </div>
 
   <h2 style="color: #15803d; font-size: 28px; margin-bottom: 16px;">
     Welcome to <strong>Drelo Routes</strong>, <span style="color: #065f46;">${name}</span>!
