@@ -13,12 +13,38 @@ export const generateMailCodeExpires = () => Date.now() + 60 * 60 * 1000; // 1 h
 
 const htmlContent = {
   welcomeAndVerify: (name, code) => `
-    <div style="text-align: center;">
-      <h2>Welcome to Drelo Routes, ${name}!</h2>
-      <p>Use this code to activate your account:</p>
-      <p style="font-size: 1.5rem; font-weight: bold;">${code}</p>
-      <p>This code expires in 1 hour.</p>
-    </div>
+    <div style="background: linear-gradient(to bottom right, #d9f99d, #bbf7d0); padding: 40px; font-family: 'Arial', sans-serif; text-align: center; border-radius: 12px; max-width: 500px; margin: auto; box-shadow: 0px 8px 20px rgba(0,0,0,0.1);">
+
+  <div style="margin-bottom: 20px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Emojione_1F389.svg/1200px-Emojione_1F389.svg.png" alt="Celebration Icon" style="height: 80px;">
+  </div>
+
+  <h2 style="color: #15803d; font-size: 28px; margin-bottom: 16px;">
+    Welcome to <strong>Drelo Routes</strong>, <span style="color: #065f46;">${name}</span>!
+  </h2>
+
+  <p style="font-size: 16px; color: #4b5563; margin-bottom: 20px;">
+    Thank you for joining our community! <br /> Use the code below to activate your account:
+  </p>
+
+  <p style="font-size: 2rem; font-weight: bold; color: #059669; background: #ecfdf5; display: inline-block; padding: 10px 20px; border-radius: 10px; margin: 20px 0;">
+    ${code}
+  </p>
+
+  <p style="font-size: 14px; color: #6b7280; margin-bottom: 30px;">
+    This code expires in <strong>1 hour</strong>.
+  </p>
+
+  <a href="https://your-frontend-link.com/activateacc" style="background-color: #22c55e; color: white; font-weight: bold; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block; font-size: 16px;">
+    Activate My Account
+  </a>
+
+  <p style="font-size: 12px; color: #9ca3af; margin-top: 30px;">
+    If you did not sign up for Drelo Routes, please ignore this email.
+  </p>
+
+</div>
+
   `,
   resetPassword: (name, code) => `
     <div style="text-align: center;">
